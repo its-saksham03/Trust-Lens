@@ -1,0 +1,10 @@
+{
+  "name": "TrustLens",
+  "description": "Privacy intelligence platform that analyzes your apps to tell you what they know about you, identifying risks and data collection practices.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone",
+    "geolocation"
+  ],
+  "majorCapabilities": []
+}

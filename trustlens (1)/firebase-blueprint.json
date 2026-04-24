@@ -1,0 +1,90 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Stores user preferences and basic profile info.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string" },
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "language": { "type": "string", "enum": ["en", "hi"] },
+        "notificationEnabled": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email"]
+    },
+    "AppMetadata": {
+      "title": "App Information",
+      "description": "Global metadata for known apps.",
+      "type": "object",
+      "properties": {
+        "packageName": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "type": "string" },
+        "iconUrl": { "type": "string" },
+        "trustScore": { "type": "number" },
+        "riskLevel": { "type": "string", "enum": ["Safe", "Moderate", "Risky", "Dangerous"] },
+        "permissions": { "type": "array", "items": { "type": "string" } },
+        "breachCount": { "type": "integer" },
+        "lastScanDate": { "type": "string", "format": "date-time" }
+      }
+    },
+    "UserApp": {
+      "title": "Installed App",
+      "description": "An app installed on the user's simulated device.",
+      "type": "object",
+      "properties": {
+        "packageName": { "type": "string" },
+        "installedAt": { "type": "string", "format": "date-time" },
+        "isAnalyzed": { "type": "boolean" },
+        "currentScore": { "type": "number" }
+      }
+    },
+    "ScanResult": {
+      "title": "Analysis Result",
+      "description": "AI analysis summary for an app.",
+      "type": "object",
+      "properties": {
+        "packageName": { "type": "string" },
+        "userId": { "type": "string" },
+        "summary": { "type": "string" },
+        "permissionGaps": { "type": "array", "items": { "type": "string" } },
+        "sentimentScore": { "type": "number" },
+        "policySummary": { "type": "string" },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["packageName", "userId"]
+    },
+    "ConnectionTest": {
+      "title": "Connection Test",
+      "description": "Used to verify Firestore connectivity.",
+      "type": "object",
+      "properties": {
+        "status": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "test/connection": {
+      "schema": "ConnectionTest",
+      "description": "Endpoint for testing database readiness."
+    },
+    "users/{userId}": {
+      "schema": "User",
+      "description": "User profiles and settings."
+    },
+    "users/{userId}/installed_apps/{packageName}": {
+      "schema": "UserApp",
+      "description": "Apps on the user's device."
+    },
+    "apps/{packageName}": {
+      "schema": "AppMetadata",
+      "description": "Global app intelligence database."
+    },
+    "scans/{scanId}": {
+      "schema": "ScanResult",
+      "description": "Log of all AI app scans."
+    }
+  }
+}
